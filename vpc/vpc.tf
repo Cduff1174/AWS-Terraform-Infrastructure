@@ -4,69 +4,69 @@ provider "aws" {
 
 # VPC
 resource "aws_vpc" "main"{
-    cidr_block = 10.0.1.0/24
+    cidr_block = "10.0.1.0/16"
     enable_dns_support = true
     enable_dns_hostnames = true
 
     tags = {
-        Name = "aws-infra-vpc"
+        Name = "project-infra-vpc"
     }
 }
 
 # AWS Public Subnet
 resource "aws_subnet" "public" {
-    vpc_id = aws_vpc.main.id
-    cidr_block = 172.3.1.0.0/20
-    availability_zone = us-east-1e
+    vpc_id = "vpc-03a13b996ff04936f"
+    cidr_block = "10.0.0.0/20"
+    availability_zone = us-east-1a
     map_public_ip_on_launch = true
 
     tags = {
-        Name = "public-subnet"
+        Name = "project-public-subnet"
     }
 }
 
 # Private Subnet
 resource "aws_subnet" "private" {
-    vpc_id = aws_vpc.main.id
-    cidr_block = var.private_subnet_cidr
-    availability_zone - var.availability_zone
+    vpc_id = "vpc-03a13b996ff04936f"
+    cidr_block = "10.0.144.0/20"
+    availability_zone = us-east-1a
 
     tags = {
-        Name = "private-subnet"
+        Name = "project-private-subnet"
     }
 }
 
 # Internet Gateway
 resource "aws_internet_gateway" "gw" {
-    vpc_id = aws_vpc.main.id
+    vpc_id = "vpc-03a13b996ff04936f"
     tags = {
-        Name = "aws-infra1-igw"
+        Name = "project-igw"
     }
 }
 
 # Route_Table
 resource "aws_route_table" "public" {
-    vpc_id = aws_vpc.main.id
+    vpc_id = "vpc-03a13b996ff04936f"
     route {
         cidr_block = "0.0.0.0/0"
-        gateway_id = igw-0d17df51d8073c631
+        gateway_id = igw-0e679d58477a54b87
     }
     tags = {
-        Name = "aws-infra1-route-table"
+        Name = "project-igw"
     }
 }
 
 # AWS Route Association Public
 resource "aws_route_table_association" "public_assoc" {
-    subnet_id = subnet-0e26a3ccb9cba3231
-    route_table_id = rtb-0d2a4ff3b84615cfa
+    subnet_id = subnet-0b4301cd4b489b480
+    route_table_id = rtb-0044756df8a19323a
 }
 
 # Security Group
 resource "aws_security_group" "main_sg"{
     vpc_id = aws_vpc.main.id
 
-    ingresss {
+    ingress {
         from_port = 80
         to_port = 80
         protocol = "tcp"
@@ -81,6 +81,6 @@ resource "aws_security_group" "main_sg"{
     }
 
     tags = {
-        Name = "main-security-group"
+        Name = "main-security-group-infra1"
     }
 }
