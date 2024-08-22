@@ -1,3 +1,4 @@
+# ALB
 resource "aws_lb" "app" {
     name = "infra1-alb"
     internal = false
@@ -15,6 +16,7 @@ resource "aws_lb" "app" {
     }
 }
 
+# ALB Target Group
 resource "aws_lb_target_group" "app" {
     name = "infra1-target-group"
     port = 80
@@ -36,6 +38,7 @@ resource "aws_lb_target_group" "app" {
 
 }
 
+# ALB Listener
 resource "aws_lb_listener" "http" {
     load_balancer_arn = "arn:aws:elasticloadbalancing:us-east-1:381491955630:loadbalancer/app/infra1-alb/46d0d1f139c14b3a"
     port = 80
