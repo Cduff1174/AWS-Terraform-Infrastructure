@@ -1,6 +1,6 @@
 # AWS S3 Private
 resource "aws_s3_bucket" "my_bucket" {
-  bucket = "bucket-infra1-private"
+  bucket = "bucket-infra1-private-v2"
 
 
   tags = {
